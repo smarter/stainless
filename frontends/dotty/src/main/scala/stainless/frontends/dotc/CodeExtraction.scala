@@ -31,7 +31,7 @@ class CodeExtraction(inoxCtx: inox.Context, symbols: SymbolsContext)(implicit va
   import StructuralExtractors._
 
   lazy val reporter = inoxCtx.reporter
-  implicit val debugSection = DebugSectionExtraction
+  implicit val debugSection: inox.DebugSection = DebugSectionExtraction
 
   implicit def dottyPosToInoxPos(p: Position): inox.utils.Position = {
     if (!p.exists) {
@@ -102,7 +102,7 @@ class CodeExtraction(inoxCtx: inox.Context, symbols: SymbolsContext)(implicit va
   }
 
   // This one never fails, on error, it returns Untyped
-  def stainlessType(tpt: Type)(implicit dctx: DefContext, pos: Position): xt.Type = {
+  private def stainlessType(tpt: Type)(implicit dctx: DefContext, pos: Position): xt.Type = {
     try {
       extractType(tpt)
     } catch {
