@@ -48,6 +48,12 @@ lazy val commonSettings: Seq[Setting[_]] = artifactSettings ++ Seq(
     "-unchecked",
     "-feature"
   ),
+  scalacOptions ++= {
+    if (isDotty.value)
+      Seq("-Yno-patmat-opt")
+    else
+      Seq()
+  },
 
   scalacOptions in (Compile, doc) ++= Seq("-doc-root-content", baseDirectory.value+"/src/main/scala/root-doc.txt"),
 
